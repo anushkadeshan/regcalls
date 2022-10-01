@@ -37,6 +37,7 @@ class CreateNewUser implements CreatesNewUsers
                 'phone' => $input['phone'],
                 'password' => Hash::make($input['password']),
             ]), function (User $user) {
+                $this->addDefaultGroupAndProfile($user);
                 $this->createTeam($user);
             });
         });
@@ -55,5 +56,10 @@ class CreateNewUser implements CreatesNewUsers
             'name' => explode(' ', $user->name, 2)[0]."'s Team",
             'personal_team' => true,
         ]));
+    }
+
+    protected function addDefaultGroupAndProfile(User $user){
+        $user->groups()->syncWithoutDetaching(1);
+        $user->attachRoleAndGroup();
     }
 }

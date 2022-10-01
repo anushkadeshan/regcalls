@@ -19,7 +19,7 @@ const crumbs = ['User','Profile']
     <AppLayout title="Profile" :crumbs="crumbs">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Profile
+                {{ $t('Profile') }}
             </h2>
         </template>
 
@@ -38,9 +38,9 @@ const crumbs = ['User','Profile']
                 </div>
 
                 <div v-if="$page.props.jetstream.canManageTwoFactorAuthentication">
-                    <TwoFactorAuthenticationForm 
+                    <TwoFactorAuthenticationForm
                         :requires-confirmation="confirmsTwoFactorAuthentication"
-                        class="mt-10 sm:mt-0" 
+                        class="mt-10 sm:mt-0"
                     />
 
                     <JetSectionBorder />

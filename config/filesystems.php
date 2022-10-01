@@ -56,6 +56,11 @@ return [
             'throw' => false,
         ],
 
+        'VueFiles' => [
+            'driver' => 'local',
+            'root' => resource_path('js/Pages/Apps/Home/'),
+        ],
+
     ],
 
     /*

@@ -86,7 +86,7 @@ const submit = () => {
                                     <JetCheckbox id="terms" v-model:checked="form.terms" name="terms" />
 
                                     <div class="ml-2">
-                                        I agree to the <a target="_blank" :href="route('terms.show')" class="underline text-sm text-gray-600 hover:text-gray-900">Terms of Service</a> and <a target="_blank" :href="route('policy.show')" class="underline text-sm text-gray-600 hover:text-gray-900">Privacy Policy</a>
+                                        {{ $t('I agree to the') }} <a target="_blank" :href="route('terms.show')" class="underline text-sm text-gray-600 hover:text-gray-900">{{ $t('Terms of Service') }}</a> {{ $t('and') }} <a target="_blank" :href="route('policy.show')" class="underline text-sm text-gray-600 hover:text-gray-900">{{ $t('Privacy Policy') }}</a>
                                     </div>
                                 </div>
                                 <JetInputError class="mt-2" :message="form.errors.terms" />
@@ -111,7 +111,7 @@ const submit = () => {
                     </div>
                     <div class="mt-4 flex items-center justify-between">
                         <span class="border-b w-1/5 md:w-1/4"></span>
-                        <Link :href="route('login')" class="text-xs text-gray-500 uppercase">or sign in</Link>
+                        <Link :href="route('login')" class="text-xs text-gray-500 uppercase">{{ $t('or sign in') }}</Link>
                         <span class="border-b w-1/5 md:w-1/4"></span>
                     </div>
                 </div>

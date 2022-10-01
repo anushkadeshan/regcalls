@@ -2,15 +2,21 @@
 
 namespace App\Providers;
 
-use App\Actions\Jetstream\AddTeamMember;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Laravel\Fortify\Fortify;
+use Laravel\Jetstream\Jetstream;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Actions\Jetstream\CreateTeam;
 use App\Actions\Jetstream\DeleteTeam;
 use App\Actions\Jetstream\DeleteUser;
+use Illuminate\Support\ServiceProvider;
+use App\Actions\Jetstream\AddTeamMember;
+use App\Actions\Jetstream\UpdateTeamName;
 use App\Actions\Jetstream\InviteTeamMember;
 use App\Actions\Jetstream\RemoveTeamMember;
-use App\Actions\Jetstream\UpdateTeamName;
-use Illuminate\Support\ServiceProvider;
-use Laravel\Jetstream\Jetstream;
 
 class JetstreamServiceProvider extends ServiceProvider
 {
@@ -40,6 +46,7 @@ class JetstreamServiceProvider extends ServiceProvider
         Jetstream::removeTeamMembersUsing(RemoveTeamMember::class);
         Jetstream::deleteTeamsUsing(DeleteTeam::class);
         Jetstream::deleteUsersUsing(DeleteUser::class);
+        $this->checkUserIsActivated();
     }
 
     /**
@@ -63,5 +70,26 @@ class JetstreamServiceProvider extends ServiceProvider
             'create',
             'update',
         ])->description('Editor users have the ability to read, create, and update.');
+    }
+
+    protected function checkUserIsActivated(){
+        Fortify::authenticateUsing(function (Request $request) {
+            $user = User::where('email', $request->email)->where('isActive',true)->first();
+
+            if ($user && Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+                $request->session()->put('group_id', 1);
+                $role = DB::table('model_has_roles')
+                    ->where('model_id',$user->id)
+                    ->where('group_id',1)
+                    ->first();
+
+                session(['current_profile_id' => $role->role_id]);
+                return $user;
+            }
+            else{
+                abort(403,"Your account has been deactivated by Admin");
+            }
+
+        });
     }
 }

@@ -8,7 +8,6 @@ import { InertiaProgress } from '@inertiajs/progress';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import VAnimateCss from 'v-animate-css';
-import translations from './base';
 import { i18nVue } from 'laravel-vue-i18n'
 import Swal from 'sweetalert2';
 
@@ -17,7 +16,7 @@ window.Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
     showConfirmButton: false,
-    timer: 3000,
+    timer: 5000,
     timerProgressBar: true,
     didOpen: (toast) => {
       toast.addEventListener('mouseenter', Swal.stopTimer)
