@@ -36,7 +36,8 @@ const CheckAdminMenu = () => {
     let users = usePage().url.value.includes('users');
     let groups = usePage().url.value.includes('groups');
     let apps = usePage().url.value.includes('admin/apps');
-    if(roles || permissions || users || groups || apps){
+    let databases = usePage().url.value.includes('admin/databases');
+    if(roles || permissions || users || groups || apps || databases){
         showingNavigationDropdown.value = true;
     }
 }
@@ -130,6 +131,7 @@ const CheckAppsMenu = () => {
                         <li><Link :href="route('users.index')" :class="theme.menu_color, theme.menu_hover_color,{ 'active-menu': $page.component === 'Users/Index' || $page.component === 'Users/Edit' }" class="block  text-gray-900 py-2 5 px-4 bg-gray-200 my-2 hover:bg-slate-300 hover:text-gray-800 rounded">{{ $t('Users') }}</Link></li>
                         <li><Link :href="route('groups.index')" :class="theme.menu_color, theme.menu_hover_color,{ 'active-menu': $page.component === 'Groups/Index' || $page.component === 'Groups/Edit' }" class="block  text-gray-900 py-2 5 px-4 bg-gray-200 my-2 hover:bg-slate-300 hover:text-gray-800 rounded">{{ $t('Groups') }}</Link></li>
                         <li><Link :href="route('apps.index')" :class="theme.menu_color, theme.menu_hover_color,{ 'active-menu': $page.component === 'Apps/Index' }" class="block  text-gray-900 py-2 5 px-4 bg-gray-200 my-2 hover:bg-slate-300 hover:text-gray-800 rounded">{{ $t('Apps') }}</Link></li>
+                        <li><Link :href="route('databases.index')" :class="theme.menu_color, theme.menu_hover_color,{ 'active-menu': $page.component === 'Databases/Index' || $page.component === 'Databases/Edit'}" class="block  text-gray-900 py-2 5 px-4 bg-gray-200 my-2 hover:bg-slate-300 hover:text-gray-800 rounded">{{ $t('Databases') }}</Link></li>
                     </ul>
                 </transition>
                 </li>

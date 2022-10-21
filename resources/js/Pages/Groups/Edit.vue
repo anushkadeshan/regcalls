@@ -102,7 +102,6 @@ export default {
                     <form @submit.prevent="submit">
                         <div class="flex justify-between">
                             <p class="text-gray-800 font-bold">{{$t('Edit Group Details')}}</p>
-
                         </div>
                         <div class="md:flex md:flex-row md:space-x-2 my-4">
                             <div class="w-full md:mb-0 mb-4">

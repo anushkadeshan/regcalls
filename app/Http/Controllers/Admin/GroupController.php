@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use PDO;
+use Config;
+use App\Models\User;
 use App\Models\Admin\App;
 use App\Models\Admin\Group;
 use Illuminate\Http\Request;
+use App\Services\DatabaseService;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
@@ -59,6 +63,7 @@ class GroupController extends Controller
      */
     public function store(GroupCreateRequest $request)
     {
+
         $logo_path = '';
         $banner_path = '';
 
@@ -141,22 +146,19 @@ class GroupController extends Controller
         try{
             $group = Group::findOrFail($request->id);
             if ($request->hasFile('logo')) {
-                $deleted = Storage::disk('public')->delete($group->logo);
-                if($deleted){
-                    $logo_path = $request->file('logo')->store('Root/Group/Logos', 'public');
-                    $group->logo = $logo_path;
+                if($group->logo !=''){
+                    Storage::disk('public')->delete($group->logo);
                 }
-
+                $logo_path = $request->file('logo')->store('Root/Group/Logos', 'public');
+                $group->logo = $logo_path;
             }
 
             if ($request->hasFile('banner')) {
-                $deleted = Storage::disk('public')->delete($group->banner);
-                if($deleted){
-                    $banner_path = $request->file('banner')->store('Root/Group/Banners', 'public');
-                    $group->banner = $banner_path;
+                if($group->banner !=''){
+                    Storage::disk('public')->delete($group->banner);
                 }
-
-
+                $banner_path = $request->file('banner')->store('Root/Group/Banners', 'public');
+                $group->banner = $banner_path;
             }
 
             $group->name = $request->name;
@@ -258,6 +260,10 @@ class GroupController extends Controller
             //dd($role->role_id);
             session(['current_profile_id' => $role->role_id]);
             session(['group_id' => $request->group_id]);
+
+            //set current database
+            $current_database = 'regcalls_g'.str_pad(session('group_id'), 4, '0', STR_PAD_LEFT);
+            session(['database' => $current_database]);
 
             return redirect()->back()->with([
                 'message' => 'Group Changed Successfully',

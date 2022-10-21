@@ -3,9 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Admin\Group;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Spatie\Permission\Models\Role;
 
 class UserSeeder extends Seeder
 {
@@ -25,12 +27,31 @@ class UserSeeder extends Seeder
             'remember_token' => Str::random(10),
        ]);
 
-       $user = User::create([
-            'name' => 'Anushka Deshan',
-            'email' => 'anushkadeshan@gmail.com',
-            'email_verified_at' => now(),
-            'password' => bcrypt('appachchi123'), // password
-            'remember_token' => Str::random(10),
+       //create Default Group
+        $group = Group::create([
+            'name' => 'Regcalls',
+            'address' => 'Sample',
+            'description' => 'Sample',
+            'phone' => 'Sample',
         ]);
+
+        //add default profile and group
+        $this->addDefaultGroupAndProfile($user,$group);
+        $this->createProfiles();
+    }
+
+    protected function addDefaultGroupAndProfile(User $user, Group $group){
+        $user->groups()->syncWithoutDetaching($group->id);
+        $user->attachRoleAndGroup('Super Admin',$group->id);
+    }
+
+    protected function createProfiles(){
+        $profiles = ['Super Admin','Local Admin','Module Admin','User'];
+        foreach($profiles as $key => $profile){
+            Role::create([
+                'name' => $profile,
+                'guard' => 'sanctum'
+            ]);
+        }
     }
 }

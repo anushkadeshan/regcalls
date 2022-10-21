@@ -78,6 +78,8 @@ class JetstreamServiceProvider extends ServiceProvider
 
             if ($user && Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
                 $request->session()->put('group_id', 1);
+                $current_database = 'regcalls_g'.str_pad(session('group_id'), 4, '0', STR_PAD_LEFT);
+                $request->session()->put('database', $current_database);
                 $role = DB::table('model_has_roles')
                     ->where('model_id',$user->id)
                     ->where('group_id',1)

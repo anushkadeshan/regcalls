@@ -13,10 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::connection('template')->create('{{ table }}', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-            $table->softDeletes();
+        Schema::table('groups', function (Blueprint $table) {
+            $table->integer('database_id')->after('banner')->nullable();
         });
     }
 
@@ -27,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('{{ table }}');
+        Schema::table('groups', function (Blueprint $table) {
+            //
+        });
     }
 };

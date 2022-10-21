@@ -35,7 +35,7 @@ defineProps({
                         </Link>
                         <Link :href="route('translations_pt')">
                             <button :class="{ 'active-menu': $page.component === 'Language/Portuguese' }" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
-                                <img :src="'/storage/Root/Brazil.png'" class="w-6 md:w-7 mr-2">
+                                <img :src="'/storage/Root/brazil.png'" class="w-6 md:w-7 mr-2">
                                 <span class="hidden md:block">{{ $t('Portuguese') }}</span>
                             </button>
                         </Link>

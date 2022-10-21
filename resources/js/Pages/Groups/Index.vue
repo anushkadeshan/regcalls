@@ -68,7 +68,6 @@ export default {
                         <PermissionError></PermissionError>
                     </div>
                 </div>
-
             </div>
         </div>
         <Teleport to="body">

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DatabaseController;
 use App\Http\Controllers\Admin\GroupController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
@@ -87,7 +88,7 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])
             });
         });
 
-        //users
+        //groups
         Route::prefix('groups')->group(function () {
             Route::controller(GroupController::class)->group(function () {
                 Route::get('/index', 'index')->name('groups.index');
@@ -110,6 +111,22 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])
                 Route::post('/changeStatus', 'changeStatus')->name('apps.changeStatus');
             });
         });
+
+        //databases
+        Route::prefix('databases')->group(function () {
+            Route::controller(DatabaseController::class)->group(function () {
+                Route::get('/index', 'index')->name('databases.index');
+                Route::get('/edit/{id}', 'edit')->name('databases.edit');
+                Route::post('/update', 'update')->name('databases.update');
+                Route::get('/sync', 'syncTables')->name('databases.sync');
+            });
+        });
+
+
+        //all the routes where not to redirect to root services
+        Route::group(['middleware' => 'CreateDatabaseConnection'], function () {
+
+        });
     });
 
     //user apps
@@ -119,12 +136,14 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])
         });
     });
 
-    //setiings
+    //settings
     Route::prefix('settings')->group(function () {
         Route::controller(SettingsController::class)->group(function () {
             Route::get('/index', 'index')->name('settings.index');
             Route::post('/changeTheme', 'changeTheme')->name('settings.changeTheme');
         });
     });
+
+
 
 });
