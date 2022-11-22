@@ -30,7 +30,7 @@ class DatabaseService {
     }
 
     public static function CopyTablesFromTemplateDatabase($database_name){
-        $tables = DB::connection('template')->select('SHOW TABLES');
+        $tables = DB::connection('default')->select('SHOW TABLES');
         foreach($tables as $table){
             $table_name = $table->Tables_in_regcalls_g0000;;
             $table_name_with_database = $database_name.'.'.$table_name;
@@ -42,6 +42,9 @@ class DatabaseService {
     }
 
     public static function CreateDatabaseConnection($database_name){
+        if(is_null($database_name)){
+            $database_name = 'regcalls_g'.str_pad(1, 4, '0', STR_PAD_LEFT);
+        }
         $database = Database::where('database',$database_name)->first();
         //dd($database);
         Config::set('database.connections.template', [

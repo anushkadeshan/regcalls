@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use App\Services\DatabaseService;
+use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
 
 class CreateDatabaseConnection
 {

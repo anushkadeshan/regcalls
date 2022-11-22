@@ -2,9 +2,12 @@
 
 namespace App\Http\Middleware;
 
-use Inertia\Middleware;
-use App\Models\Admin\Group;
 use App\Models\Theme;
+use Inertia\Middleware;
+use App\Models\Category;
+use App\Models\Admin\Group;
+use App\Services\CartService;
+use App\Services\DatabaseService;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -16,7 +19,7 @@ class HandleInertiaRequests extends Middleware
      * @see https://inertiajs.com/server-side-setup#root-template
      * @var string
      */
-    protected $rootView = 'app';
+    protected $rootView = 'admin';
 
     /**
      * Determines the current asset version.
@@ -25,6 +28,14 @@ class HandleInertiaRequests extends Middleware
      * @param  \Illuminate\Http\Request  $request
      * @return string|null
      */
+
+   /*  public function rootView(Request $request)
+    {
+        if ($request->route()->getPrefix() == '/admin' || $request->route()->getPrefix() == '/auth') {
+            return 'admin';
+        }
+        return 'client';
+    } */
     public function version(Request $request): ?string
     {
         return parent::version($request);
@@ -45,7 +56,7 @@ class HandleInertiaRequests extends Middleware
                 'message' => session('message'),
                 'type' => session('type')
             ],
-            'group_id' => session('group_id'),
+            'group_id' => session('group_id') !='' ? session('group_id') : 1,
             'current_profile_id' => session('current_profile_id'),
             'groupName' => $this->getCurrentGroupName(),
             'profileName' => $this->getCurrentProfileName(),
@@ -53,7 +64,11 @@ class HandleInertiaRequests extends Middleware
             'assignedProfiles' => $this->getAssignedProfiles(),
             'currentPermissions' => $this->getCurrentPermissions(),
             'groupApps' => $this->getGroupApps(),
-            'theme' => $this->getTheme()
+            'theme' => $this->getTheme(),
+            'categoriesOnNavbar' =>$this->getCategoriesOnNavbar(),
+            'cartItemsCount' => CartService::getCartItemsCount(),
+            'cartProducts' => CartService::getCartProducts(),
+            'cartSubTotal' => CartService::getSubTotal()
 
         ]);
     }
@@ -63,13 +78,18 @@ class HandleInertiaRequests extends Middleware
             $groups = auth()->user()->groups()->whereNot('groups.id',session('group_id'))->select('groups.id','groups.name')->get()->toArray();
             return $groups;
         }
+        return [];
+
     }
 
     protected function getCurrentGroupName(){
         if(session('group_id')!=''){
             $groupName = Group::find(session('group_id'))->name;
-            return $groupName;
         }
+        else{
+            $groupName = Group::find(1)->name;
+        }
+        return $groupName;
 
     }
 
@@ -121,6 +141,14 @@ class HandleInertiaRequests extends Middleware
             return $theme;
         }
 
+    }
+
+    protected function getCategoriesOnNavbar(){
+        $group_id = session('group_id') !='' ? session('group_id') : 1;
+        $database_name = 'regcalls_g'.str_pad($group_id, 4, '0', STR_PAD_LEFT);
+        DatabaseService::CreateDatabaseConnection($database_name);
+        $categories = Category::whereNull('parent_id')->get();
+        return $categories;
     }
 
 }

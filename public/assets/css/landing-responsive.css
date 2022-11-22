@@ -1,0 +1,180 @@
+@media (min-width: 1366px) {
+  .container {
+    max-width: 1440px; } }
+
+@media (max-width: 1366px) {
+  .slider-caption p {
+    padding: 0 40px; }
+  .layout-img {
+    height: 100%; }
+  .slider-caption {
+    margin-top: 40px; }
+  .eml.eml-one {
+    left: 15px;
+    width: 20%; }
+  .eml.eml-two {
+    width: 30%;
+    bottom: 20%; }
+  .eml.eml-three {
+    height: auto;
+    width: 20%;
+    right: 15px; } }
+
+@media (max-width: 1199px) {
+  .slider-caption {
+    width: 100%; }
+    .slider-caption p {
+      padding: 0 200px; }
+  .layout-demo .tab-content .card .card-body p {
+    font-size: 16px; }
+  .fetures-img h6 {
+    font-size: 18px; }
+  .key-feature > div:nth-last-child(-n + 19) {
+    margin-top: 70px; }
+  .slider-caption h1 {
+    font-size: 42px; }
+  .heading-title h4 {
+    font-size: 42px; }
+  .footer-title {
+    font-size: 42px;
+    margin-bottom: 20px; }
+  .eml.eml-two {
+    width: 25%; } }
+
+@media (max-width: 992px) {
+  .layout-img {
+    height: 100vh; } }
+
+@media (max-width: 991px) {
+  .key-feature .theme-collection .image-contain {
+    padding: 30px; }
+  .box-email {
+    width: 70%; }
+  .email-box {
+    padding: 0; }
+  .footer-title {
+    font-size: 32px; }
+  .exclusive-fet-card p {
+    font-size: 16px; }
+  .heading-title h4 {
+    font-size: 34px; }
+  .layout-img {
+    height: 100%; }
+  .slider-caption p {
+    padding: 0 80px; } }
+
+@media (max-width: 768px) {
+  .sm-resp-img {
+    width: 50%; } }
+
+@media (max-width: 767px) {
+  .exclusive-fet-card > div:nth-last-child(-n + 8) {
+    margin-top: 50px; }
+  .landing-nav .navbar-collapse {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 60px;
+    z-index: 9;
+    padding: 0 30px; }
+  .navbar-toggler {
+    position: relative; }
+  .slider-caption h1 {
+    font-size: 33px;
+    margin-bottom: 20px; }
+  .navbar-nav {
+    background: white;
+    margin-top: 10px;
+    -webkit-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out; }
+  .landing-nav .navbar-nav a {
+    color: #1d93ff !important; }
+    .landing-nav .navbar-nav a:hover {
+      color: #000 !important; }
+  .slider-caption .logo-main {
+    position: fixed;
+    top: 20px;
+    right: 60px;
+    width: 80px;
+    z-index: 99; }
+  .navbar-light .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.62); }
+  .navbar-light .navbar-toggler-icon {
+    -webkit-filter: brightness(1) invert(1);
+            filter: brightness(1) invert(1); }
+  .heading-title h4 {
+    font-size: 28px; }
+  .email-box {
+    font-size: 22px; }
+  .slider-caption p {
+    padding: 0 0px; }
+  .footer-title {
+    font-size: 26px; }
+  .layout-img {
+    height: 100%; }
+  .space-card > div:nth-last-child(-n + 17) {
+    margin-top: 50px; }
+  .space-shop > div:nth-last-child(-n + 5) {
+    margin-top: 50px; }
+  .space-product > div:nth-last-child(-n + 15) {
+    margin-top: 50px; }
+  .fetures-img > div:nth-last-child(-n + 9) {
+    margin-top: 30px; }
+  .fetures-img h6 {
+    font-size: 22px; }
+  .key-feature > div:nth-last-child(-n + 21) {
+    margin-top: 30px; }
+  .lazy-space > div:nth-last-child(-n + 2), .sm-space-pro-size > div:nth-last-child(-n + 2) {
+    margin-top: 30px; }
+  .sm-space-pro-size img {
+    width: 100%; }
+  .sm-space-pro-size .top-space-n {
+    margin-top: 0; }
+  .sm-space-gallery > div:nth-last-child(-n + 1) {
+    margin-top: 30px; }
+  .btn-lazy {
+    font-size: 16px; } }
+
+@media (max-width: 575px) {
+  section {
+    padding-top: 50px;
+    padding-bottom: 50px; }
+  .landing-nav {
+    padding: 15px; }
+  .slider-caption .logo-main {
+    top: 15px;
+    width: 60px; }
+  .footer-title {
+    font-size: 18px; }
+  .sm-logo {
+    width: 50%; }
+  .btn-rate {
+    padding: 10px 30px;
+    font-size: 18px; } }
+
+@media (max-width: 575px) {
+  .slider-caption h1 {
+    font-size: 22px;
+    margin-bottom: 20px; }
+  .slider-caption p {
+    font-size: 15px; }
+  .slider-caption img {
+    width: 10%;
+    margin-bottom: 60px; }
+  .heading-title {
+    padding-bottom: 50px; }
+  .exclusive-fet-card > div:nth-last-child(-n + 8) {
+    margin-top: 30px; }
+  .eml.eml-one, .eml.eml-three {
+    display: none; }
+  .box-email {
+    width: 100%; }
+  .email-box {
+    font-size: 18px; }
+  .layout-demo .nav-pills .nav-item {
+    margin: 0 5px; }
+  .layout-demo .nav-pills .nav-link {
+    padding: 5px 14px; }
+  .purchase-btn {
+    width: 180px;
+    font-size: 15px; } }

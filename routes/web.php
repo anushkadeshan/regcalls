@@ -1,26 +1,51 @@
 <?php
 
-use App\Http\Controllers\Admin\DatabaseController;
-use App\Http\Controllers\Admin\GroupController;
-use App\Http\Controllers\Admin\PermissionController;
-use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\AppController;
-use App\Http\Controllers\Admin\SettingsController;
-use App\Http\Controllers\LanguageController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\Admin\AppController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\GroupController;
+use App\Http\Controllers\Admin\DatabaseController;
+use App\Http\Controllers\Admin\Ecommerce\AttributeController;
+use App\Http\Controllers\Admin\Ecommerce\CategoryController;
+use App\Http\Controllers\Admin\Ecommerce\ProductController;
+use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\Ecommerce\StockController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CustomAuthController;
+use App\Http\Controllers\HomeController;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+Route::group(['middleware' => 'CreateDatabaseConnection'], function () {
+    Route::controller(HomeController::class)->group(function () {
+        Route::get('/', 'index')->name('home.index');
+        Route::get('allproducts', 'products')->name('home.products');
+    });
+
+    Route::prefix('/cart')->name('cart.')->group(function () {
+        Route::get('/', [CartController::class, 'index'])->name('index');
+        Route::post('/add', [CartController::class, 'add'])->name('add');
+        Route::post('/remove', [CartController::class, 'remove'])->name('remove');
+        Route::post('/update-quantity', [CartController::class, 'updateQuantity'])->name('update-quantity');
+    });
 });
+
+
+Route::get('/customer/register', function () {
+    return Inertia::render('Client/Auth/Register');
+})->name('custom.register');
+
+Route::get('/customer/login', function () {
+    return Inertia::render('Client/Auth/Login');
+})->name('custom.login');
+
+Route::post('/customer/login',  [CustomAuthController::class,'login'])->name('custom.post.login');
+Route::post('/customer/register',  [CustomAuthController::class,'register'])->name('custom.post.register');
+
 
 
 
@@ -125,7 +150,45 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])
 
         //all the routes where not to redirect to root services
         Route::group(['middleware' => 'CreateDatabaseConnection'], function () {
+            //ecommerce
+            Route::prefix('ecommerce')->group(function () {
+                //stocks
+                Route::controller(StockController::class)->group(function () {
+                    Route::get('/stock/index', 'index')->name('stock.index');
+                    Route::post('/stock/create', 'store')->name('stock.store');
+                    Route::get('/stock/edit/{id}', 'edit')->name('stock.edit');
+                    Route::post('/stock/update', 'update')->name('stock.update');
+                });
 
+                //products
+                Route::controller(ProductController::class)->group(function () {
+                    Route::get('/product/index', 'index')->name('product.index');
+                    Route::get('/product/create', 'create')->name('product.create');
+                    Route::post('/product/store', 'store')->name('product.store');
+                    Route::post('/product/update', 'update')->name('product.update');
+                    Route::get('/product/edit/{id}', 'edit')->name('product.edit');
+                    Route::post('/product/uploadDownloads', 'uploadDownloads')->name('product.uploadDownloads');
+                    Route::post('/product/deleteDownloads', 'deleteDownloads')->name('product.deleteDownloads');
+                    Route::post('/product/uploadTechSpecs', 'uploadTechSpecs')->name('product.uploadTechSpecs');
+                    Route::post('/product/uploadMainImage', 'uploadMainImage')->name('product.uploadMainImage');
+                    Route::post('/product/uploadOtherImages', 'uploadOtherImages')->name('product.uploadOtherImages');
+                    Route::post('/product/deleteImage', 'deleteImage')->name('product.deleteImage');
+                });
+
+                //category
+                Route::controller(CategoryController::class)->group(function () {
+                    Route::get('/category/index', 'index')->name('category.index');
+                    Route::post('/category/store', 'store')->name('category.store');
+                    Route::post('/category/update', 'update')->name('category.update');
+                });
+
+                //Attributes
+                Route::controller(AttributeController::class)->group(function () {
+                    Route::get('/attribute/index', 'index')->name('attribute.index');
+                    Route::post('/attribute/store', 'store')->name('attribute.store');
+                    Route::post('/attribute/update', 'update')->name('attribute.update');
+                });
+            });
         });
     });
 

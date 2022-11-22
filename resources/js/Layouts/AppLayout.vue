@@ -25,7 +25,6 @@ export default {
 <template>
     <div class="bg-gray-300">
         <Head :title="title" ></Head>
-
         <div class="relative min-h-screen bg-gray-100 md:flex">
             <Sidebar :theme="theme"></Sidebar>
             <div class="flex-1">

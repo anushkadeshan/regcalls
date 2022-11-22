@@ -1,0 +1,18 @@
+@import 'theme/variables';
+
+$theme-color: #444;
+$theme-primary-color: #444;
+$theme-orage: #ff9400;
+$btn-theme: #444;
+$dark-theme-header-icon: #444;
+$top-header-textcolor: #fff;
+$theme-header-color:#fff;
+$slider-text:#444;
+$slider-title-color: #ff5ea5;
+$footer-bg-color:#fff;
+$footer-title-color: #444;
+$theme-footer-text-color: #444;
+
+@import 'theme/style';
+@import 'theme/menu';
+@import 'theme/responsive';

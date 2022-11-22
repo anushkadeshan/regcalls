@@ -20,6 +20,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        'Illuminate\Auth\Events\Login' => [
+            'App\Listeners\LogAuthenticated',
+        ],
     ];
 
     /**
@@ -30,6 +33,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Group::observe(GroupObserver::class);
+
     }
 
     /**

@@ -1,22 +1,41 @@
-<script setup>
-import { Head, Link } from '@inertiajs/inertia-vue3';
 
-defineProps({
-    canLogin: Boolean,
-    canRegister: Boolean,
-    laravelVersion: String,
-    phpVersion: String,
-});
+<script>
+import Products from './Client/Home/Products.vue'
+import ShopByCategory from './Client/Home/ShopByCategory.vue'
+import ClientLayout from '../Layouts/ClientLayout.vue'
+export default {
+    props : {
+        categories : Object,
+        products : Object
+    },
+    components:{
+        ClientLayout,
+        ShopByCategory, Products
+    }
+}
 </script>
 
-<template>
-    <Head title="Welcome" />
-
-    <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
-        <div v-if="canLogin" class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-            <Link :href="route('dashboard')" class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</Link>
+<template lang="">
+    <ClientLayout title="Shop Home">
+        <div class="flex object-fill bg-cover bg-no-repeat bg-center py-20 md:py-26 h-full" style="background-image: url('/banner-bg.jpg')">
+            <div class="px-8">
+                <h1 class="text-4xl md:text-6xl text-gray-800 font-medium mb-4 capitalize">
+                    best collection  <br> Regcalls Shop
+                </h1>
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam <br>
+                    accusantium perspiciatis, sapiente
+                    magni eos dolorum ex quos dolores odio</p>
+                <div class="mt-8 md:mt-12">
+                    <a href="#" class="bg-primary border border-primary text-white px-8 py-2 md:py-3 font-medium
+                        rounded-md hover:bg-transparent hover:text-primary">Shop Now</a>
+                </div>
+            </div>
         </div>
-
-
-    </div>
+        <ShopByCategory :categories="categories"></ShopByCategory>
+        <Products :products="products"></Products>
+    </ClientLayout>
 </template>
+
+<style lang="">
+
+</style>

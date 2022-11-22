@@ -1,6 +1,7 @@
 import './bootstrap';
 import './custom';
 import '../css/app.css';
+import 'flowbite';
 
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/inertia-vue3';
@@ -10,13 +11,20 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import VAnimateCss from 'v-animate-css';
 import { i18nVue } from 'laravel-vue-i18n'
 import Swal from 'sweetalert2';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import store from './Store';
+
+library.add(fas,far);
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Regcalls';
 window.Toast = Swal.mixin({
     toast: true,
-    position: 'top-end',
+    position: 'bottom-end',
     showConfirmButton: false,
-    timer: 5000,
+    timer: 3000,
     timerProgressBar: true,
     didOpen: (toast) => {
       toast.addEventListener('mouseenter', Swal.stopTimer)
@@ -34,6 +42,8 @@ createInertiaApp({
             .use(i18nVue, {
                 resolve: (lang) => import(`../../lang/${lang}.json`)
             })
+            .component('fa',FontAwesomeIcon)
+            .use(store)
             .mount(el);
     },
 });

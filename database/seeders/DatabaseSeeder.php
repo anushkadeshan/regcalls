@@ -88,7 +88,25 @@ class DatabaseSeeder extends Seeder
             'Delete Group',
             'View Databases',
             'Edit Database',
-            'Sync Tables'
+            'Sync Tables',
+            'Create Stock',
+            'Edit Stock',
+            'View Stock',
+            'Delete Stock',
+            'Create Product',
+            'View Product',
+            'Edit Product',
+            'Delete Product',
+            'View Category',
+            'Edit Category',
+            'Create Category',
+            'Delete Category',
+            'View Attribute',
+            'Edit Attribute',
+            'Create Attribute',
+            'Delete Attribute',
+
+
         ];
 
         $role = Role::find(1);

@@ -44,7 +44,8 @@ const CheckAdminMenu = () => {
 
 const CheckAppsMenu = () => {
     let apps = usePage().url.value.includes('apps/home');
-    if(apps){
+    let ecommerce = usePage().url.value.includes('admin/ecommerce');
+    if(apps|| ecommerce){
         showingAppsDropdown.value = true;
     }
 }
@@ -81,7 +82,6 @@ const CheckAppsMenu = () => {
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
             </svg>
-
         </button>
     </div>
     <!-- Sidebar -->
@@ -89,7 +89,6 @@ const CheckAppsMenu = () => {
         <Link :href="route('dashboard')" class="text-gray-800 flex items-center space-x-2 py-4 px-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" />
-
             </svg>
             <span class="text-2xl font-extrabold">Regcalls</span>
         </Link>
@@ -164,7 +163,7 @@ const CheckAppsMenu = () => {
                     </a>
                     <transition name="fade">
                     <ul v-if="showingAppsDropdown" ref="sub_item" class="ml-2 border-l border-dashed border-amber-300 pl-2 ease-in-out duration-300">
-                        <li v-for="app in $page.props.groupApps" :key="app.app_key"><Link :href="route('apps.home',[app.app_key,app.title_en])" :class="theme.menu_color, theme.menu_hover_color,{ 'active-menu': $page.component === 'Apps/Home/'+app.app_key }" class="block  text-gray-900 py-2 5 px-4 bg-gray-200 my-2 hover:bg-slate-300 hover:text-gray-800 rounded">{{ app.title_en }}</Link></li>
+                        <li v-for="app in $page.props.groupApps" :key="app.app_key"><Link :href="route('apps.home',[app.app_key,app.title_en])" :class="theme.menu_color, theme.menu_hover_color,{ 'active-menu': $page.component === 'Apps/Home/'+app.app_key || $page.component.startsWith('Apps/'+app.title_en) }" class="block  text-gray-900 py-2 5 px-4 bg-gray-200 my-2 hover:bg-slate-300 hover:text-gray-800 rounded">{{ app.title_en }}</Link></li>
                     </ul>
                 </transition>
                 </li>

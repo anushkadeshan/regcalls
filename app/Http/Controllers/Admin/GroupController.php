@@ -145,7 +145,7 @@ class GroupController extends Controller
         $banner_path = '';
         try{
             $group = Group::findOrFail($request->id);
-            if ($request->hasFile('logo')) {
+            if($request->hasFile('logo')) {
                 if($group->logo !=''){
                     Storage::disk('public')->delete($group->logo);
                 }

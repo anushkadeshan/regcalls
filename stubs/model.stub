@@ -10,4 +10,8 @@ class {{ class }} extends Model
 {
     use HasFactory, SoftDeletes;
     protected $connection = 'template';
+
+    public $fillable = [
+
+    ];
 }

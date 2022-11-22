@@ -1,0 +1,23 @@
+@import 'theme/variables';
+
+$theme-color: #444;
+$theme-primary-color: #7aba1e;
+$theme-orage: #7aba1e;
+$dark-theme-header-icon: #444;
+$btn-theme: #6da220;
+$btn-theme-hover: #313131;
+$top-header-drop: #fff;
+$top-header: #7aba1e;
+$top-header-textcolor: #fff;
+$theme-header-color:#fff;
+$slider-text:#000;
+$slider-text-two:#000;
+$slider-title-color: #7aba1e;
+$footer-title-color: #444;
+$theme-footer-text-color: #444;
+
+$header-theme-text-color: $theme-color;
+
+@import 'theme/style';
+@import 'theme/menu';
+@import 'theme/responsive';

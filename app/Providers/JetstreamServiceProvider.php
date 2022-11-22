@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Laravel\Fortify\Fortify;
 use Laravel\Jetstream\Jetstream;
+use App\Services\DatabaseService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -17,6 +18,7 @@ use App\Actions\Jetstream\AddTeamMember;
 use App\Actions\Jetstream\UpdateTeamName;
 use App\Actions\Jetstream\InviteTeamMember;
 use App\Actions\Jetstream\RemoveTeamMember;
+use App\Services\CartService;
 
 class JetstreamServiceProvider extends ServiceProvider
 {
@@ -75,7 +77,6 @@ class JetstreamServiceProvider extends ServiceProvider
     protected function checkUserIsActivated(){
         Fortify::authenticateUsing(function (Request $request) {
             $user = User::where('email', $request->email)->where('isActive',true)->first();
-
             if ($user && Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
                 $request->session()->put('group_id', 1);
                 $current_database = 'regcalls_g'.str_pad(session('group_id'), 4, '0', STR_PAD_LEFT);
@@ -91,7 +92,9 @@ class JetstreamServiceProvider extends ServiceProvider
             else{
                 abort(403,"Your account has been deactivated by Admin");
             }
-
         });
     }
+
+
+
 }
