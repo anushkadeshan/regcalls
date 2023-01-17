@@ -53,6 +53,12 @@ export default {
                             </div>
                         </Link>
 
+                        <Link v-if="$page.props.currentPermissions.includes('View Orders')" :href="route('order.index')">
+                            <div class="p-2 active-menu rounded-md text-white text-center cursor-pointer">
+                                {{ $t('Order Management') }}
+                            </div>
+                        </Link>
+
                     </div>
 
                 </div>

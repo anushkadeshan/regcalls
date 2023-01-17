@@ -26,8 +26,8 @@ export default {
                     accusantium perspiciatis, sapiente
                     magni eos dolorum ex quos dolores odio</p>
                 <div class="mt-8 md:mt-12">
-                    <a href="#" class="bg-primary border border-primary text-white px-8 py-2 md:py-3 font-medium
-                        rounded-md hover:bg-transparent hover:text-primary">Shop Now</a>
+                    <a href="#" class="bg-rose-500 border border-rose-500 text-white px-8 py-2 md:py-3 font-medium
+                        rounded-md hover:bg-transparent hover:text-rose-500">Shop Now</a>
                 </div>
             </div>
         </div>

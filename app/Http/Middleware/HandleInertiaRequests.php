@@ -6,6 +6,7 @@ use App\Models\Theme;
 use Inertia\Middleware;
 use App\Models\Category;
 use App\Models\Admin\Group;
+use App\Models\Wishlist;
 use App\Services\CartService;
 use App\Services\DatabaseService;
 use Illuminate\Http\Request;
@@ -68,7 +69,8 @@ class HandleInertiaRequests extends Middleware
             'categoriesOnNavbar' =>$this->getCategoriesOnNavbar(),
             'cartItemsCount' => CartService::getCartItemsCount(),
             'cartProducts' => CartService::getCartProducts(),
-            'cartSubTotal' => CartService::getSubTotal()
+            'cartSubTotal' => CartService::getSubTotal(),
+            'wishlistItemCount' => self::wishlistCount()
 
         ]);
     }
@@ -149,6 +151,14 @@ class HandleInertiaRequests extends Middleware
         DatabaseService::CreateDatabaseConnection($database_name);
         $categories = Category::whereNull('parent_id')->get();
         return $categories;
+    }
+
+    public function wishlistCount(){
+        if(auth()->check()){
+            $count = Wishlist::where('user_id',auth()->user()->id)->count();
+            return $count;
+        }
+
     }
 
 }

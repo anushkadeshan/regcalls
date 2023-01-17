@@ -8,6 +8,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Services\CartService;
 use App\Models\Apps\Ecommerce\Product;
+use App\Models\Wishlist;
 use Illuminate\Support\Facades\Cookie;
 
 class CartController extends Controller
@@ -29,6 +30,7 @@ class CartController extends Controller
 
     public function add(Request $request){
         $product = Product::find($request->product_id);
+
         $quantity = $request->input('quantity',1);
         $user = $request->user();
         if($user){
@@ -45,6 +47,10 @@ class CartController extends Controller
                 ]);
             }
 
+            $wishlist = Wishlist::where('user_id',auth()->user()->id)->where('product_id',$request->product_id)->exists();
+            if($wishlist){
+                $wishlist = Wishlist::where('user_id',auth()->user()->id)->where('product_id',$request->product_id)->delete();
+            }
         }
         else{
             $cartItems = json_decode($request->cookie('cart_items','[]'),true);

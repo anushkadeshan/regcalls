@@ -4,10 +4,13 @@ import { Link, usePage } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia';
 import MiniCart from './MiniCart.vue'
 import { trans } from 'laravel-vue-i18n';
+import AuthNeed from './AuthNeed.vue';
+
 export default {
     data() {
         return {
             showMiniCart :false,
+            showAuthScreen:false,
             currentGroup : usePage().props.value.group_id,
             user_name : usePage().props.value.user ? usePage().props.value.user.name  : null
         }
@@ -36,7 +39,8 @@ export default {
     components:{
         FontAwesomeIcon,
         MiniCart,
-        Link
+        Link,
+        AuthNeed
     }
 }
 </script>
@@ -112,15 +116,25 @@ export default {
                 </div>
 
                 <div class="flex items-center space-x-4 md:space-x-4">
-                    <a href="#" class="text-center text-gray-700 hover:text-rose-500 transition relative">
-                        <div class="text-xl md:text-2xl">
-                            <fa :icon="['far','fa-heart']"></fa>
-                        </div>
-                        <div class="text-xs leading-3 hidden md:block">Wishlist</div>
-                        <div
-                            class="absolute -right-3 md:right-0 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-rose-500 text-white text-xs">
-                            8</div>
-                    </a>
+                    <div v-if="$page.props.user">
+                        <Link :href="route('wishlist.index')" class="text-center text-gray-700 hover:text-rose-500 transition relative">
+                            <div class="text-xl md:text-2xl">
+                                <fa :icon="['far','fa-heart']"></fa>
+                            </div>
+                            <div class="text-xs leading-3 hidden md:block">Wishlist</div>
+                            <div class="absolute -right-3 md:right-0 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-rose-500 text-white text-xs">
+                                {{$page.props.wishlistItemCount}}
+                            </div>
+                        </Link>
+                    </div>
+                    <div v-else>
+                        <a @click="showAuthScreen=true" class="text-center text-gray-700 hover:text-rose-500 transition relative">
+                            <div class="text-xl md:text-2xl">
+                                <fa :icon="['far','fa-heart']"></fa>
+                            </div>
+                            <div class="text-xs leading-3 hidden md:block">Wishlist</div>
+                        </a>
+                    </div>
                     <a @click="showMiniCart=true" class="text-center text-gray-700 hover:text-rose-500 transition relative">
                         <div class="text-xl md:text-2xl">
                             <fa :icon="['fas','cart-plus']" ></fa>
@@ -145,6 +159,10 @@ export default {
     <!-- mini cart -->
     <Teleport to="body">
         <MiniCart :show="showMiniCart" @close="showMiniCart = false"></MiniCart>
+    </Teleport>
+
+    <Teleport to="body">
+        <AuthNeed :show="showAuthScreen" @close="showAuthScreen = false"></AuthNeed>
     </Teleport>
 </template>
 

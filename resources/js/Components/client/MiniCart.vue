@@ -73,9 +73,9 @@ export default {
                                 <Link type="button" :href="route('cart.index')" class="bg-gray-900 px-4 py-2 text-white w-full text-center">
                                     {{$t('Go to Cart')}}
                                 </Link>
-                                <button class="bg-rose-500 px-4 py-2 text-white w-full">
+                                <Link type="button" :href="route('checkout.index')" class="bg-rose-500 px-4 py-2 text-white w-full text-center">
                                     {{$t('Checkout')}}
-                                </button>
+                                </Link>
                             </div>
                         </div>
                         <div v-else class="py-4 px-3 text-center text-gray-500">

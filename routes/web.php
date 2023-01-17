@@ -12,13 +12,16 @@ use App\Http\Controllers\Admin\GroupController;
 use App\Http\Controllers\Admin\DatabaseController;
 use App\Http\Controllers\Admin\Ecommerce\AttributeController;
 use App\Http\Controllers\Admin\Ecommerce\CategoryController;
+use App\Http\Controllers\Admin\Ecommerce\OrderController;
 use App\Http\Controllers\Admin\Ecommerce\ProductController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\Ecommerce\StockController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\WishlistController;
 
 Route::group(['middleware' => 'CreateDatabaseConnection'], function () {
     Route::controller(HomeController::class)->group(function () {
@@ -31,6 +34,22 @@ Route::group(['middleware' => 'CreateDatabaseConnection'], function () {
         Route::post('/add', [CartController::class, 'add'])->name('add');
         Route::post('/remove', [CartController::class, 'remove'])->name('remove');
         Route::post('/update-quantity', [CartController::class, 'updateQuantity'])->name('update-quantity');
+    });
+
+    Route::prefix('/wishlist')->name('wishlist.')->group(function () {
+        Route::get('/', [WishlistController::class, 'index'])->name('index');
+        Route::post('/add', [WishlistController::class, 'add'])->name('add');
+        Route::post('/remove', [WishlistController::class, 'remove'])->name('remove');
+    });
+
+    Route::prefix('/checkout')->name('checkout.')->group(function () {
+        Route::get('/', [CheckoutController::class, 'index'])->name('index');
+        Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+        Route::get('/success/{order_id}', [CheckoutController::class, 'success'])->name('success');
+        Route::get('/failure', [CheckoutController::class, 'failure'])->name('failure');
+        Route::get('/paypal/success/{order_id}', [CheckoutController::class, 'paypal_success'])->name('paypal_success');
+        Route::get('/paypal/notify', [CheckoutController::class, 'notify'])->name('notify');
+        Route::get('/paypal/failure', [CheckoutController::class, 'paypal_failure'])->name('paypal_failure');
     });
 });
 
@@ -187,6 +206,12 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])
                     Route::get('/attribute/index', 'index')->name('attribute.index');
                     Route::post('/attribute/store', 'store')->name('attribute.store');
                     Route::post('/attribute/update', 'update')->name('attribute.update');
+                });
+
+                //Orders
+                Route::controller(OrderController::class)->group(function () {
+                    Route::get('/orders/index', 'index')->name('order.index');
+                    Route::get('/orders/edit', 'index')->name('order.edit');
                 });
             });
         });

@@ -1,14 +1,17 @@
 <script>
+import AuthNeed from '../../../Components/client/AuthNeed.vue'
 import { trans } from 'laravel-vue-i18n';
 import store from '../../../Store';
 
 export default {
+    components: { AuthNeed },
 
     props:{
         products : Object
     },
     data() {
         return {
+            showAuthScreen:false,
             test :store.state.test
         }
     },
@@ -16,6 +19,22 @@ export default {
     methods: {
         addToCart : function (product_id){
             this.$inertia.visit(route('cart.add'),{
+                method: 'post',
+                preserveScroll: true,
+                data : {
+                    product_id : product_id,
+                },
+                onSuccess: (page) => {
+                    Toast.fire({
+                        icon: page.props.flash.type,
+                        title: trans(page.props.flash.message)
+                    });
+                },
+
+            })
+        },
+        addToWishlist : function (product_id){
+            this.$inertia.visit(route('wishlist.add'),{
                 method: 'post',
                 preserveScroll: true,
                 data : {
@@ -58,18 +77,22 @@ export default {
                         </a>
                         <div class="flex space-x-1">
                             <a href="#"
-                                class="text-white text-lg w-9 h-8 rounded-full bg-rose-500 flex items-center justify-center hover:bg-gray-800 transition"
+                                class="text-white text-lg w-8 h-8 rounded-full bg-rose-500 flex items-center justify-center hover:bg-gray-800 transition"
                                 title="view product">
                                 <fa icon="magnifying-glass"></fa>
                             </a>
-                            <a href="#"
-                                class="text-white text-lg w-9 h-8 rounded-full bg-rose-500 flex items-center justify-center hover:bg-gray-800 transition"
+                            <a v-if="$page.props.user" @click.prevent="addToWishlist(product.id)"
+                                class="text-white text-lg w-8 h-8 rounded-full bg-rose-500 flex items-center justify-center hover:bg-gray-800 transition"
+                                title="add to wishlist">
+                                <fa icon="heart"></fa>
+                            </a>
+                            <a v-else @click="showAuthScreen=true"
+                                class="text-white text-lg w-8 h-8 rounded-full bg-rose-500 flex items-center justify-center hover:bg-gray-800 transition"
                                 title="add to wishlist">
                                 <fa icon="heart"></fa>
                             </a>
                         </div>
                     </div>
-
                     <div class="flex items-baseline mb-1 space-x-2">
                         <p class="text-xl text-rose-500 font-semibold">${{product.price}}</p>
                     </div>
@@ -78,9 +101,11 @@ export default {
                     class="block w-full py-1 text-center text-white bg-rose-500 border border-rose-500 rounded-b hover:bg-transparent hover:text-rose-500 transition">Add
                     to cart</button>
             </div>
-
         </div>
     </div>
+    <Teleport to="body">
+        <AuthNeed :show="showAuthScreen" @close="showAuthScreen = false"></AuthNeed>
+    </Teleport>
 </template>
 
 <style lang="">

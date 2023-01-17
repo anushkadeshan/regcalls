@@ -105,6 +105,7 @@ class DatabaseSeeder extends Seeder
             'Edit Attribute',
             'Create Attribute',
             'Delete Attribute',
+            'View Orders'
 
 
         ];

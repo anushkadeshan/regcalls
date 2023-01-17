@@ -16,7 +16,7 @@ use App\Http\Requests\Admin\ProductUpdateRequest;
 class ProductController extends Controller
 {
     public function index(Request $request){
-        $perpage = $request->input('perPage') ?: 10;
+        $perpage = $request->input('perPage') ?: 2;
         $query = Product::query();
         $query->when($request->input('search'), function($query, $search){
             $query->where('title','like', "%{$search}%");
